@@ -1,5 +1,6 @@
 .ssh/*
 .cache/*
 /build/*
-/hypr-bongocat.so
 /hyprland.conf
+*.so
+*.o
