@@ -4,3 +4,4 @@
 /hyprland.conf
 *.so
 *.o
+compile_commands.json
