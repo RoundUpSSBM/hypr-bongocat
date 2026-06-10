@@ -1,7 +1,7 @@
 OUTPUT=hypr-bongocat.so
 
 PKGS=pixman-1 libdrm hyprland pangocairo libinput libudev wayland-server xkbcommon
-CXXFLAGS=-fPIC --no-gnu-unique -g -std=c++2b -Og `pkg-config --cflags ${PKGS}`
+CXXFLAGS=-fPIC --no-gnu-unique -g -std=c++2b -O2 `pkg-config --cflags ${PKGS}`
 
 .PHONY: all hyprpm clean load unload
 all: $(OUTPUT)
