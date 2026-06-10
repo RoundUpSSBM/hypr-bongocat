@@ -17,7 +17,7 @@
 #include <string>
 #include <hyprland/src/render/Renderer.hpp>
 
-static CDotDecoration *current = nullptr;
+static WP<CDotDecoration> current = nullptr;
 static bool isTextureLoaded = false;
 
 // TODO this is messy as hell lol
@@ -115,12 +115,8 @@ void initialLoad() {
 }
 
 void onCloseWindow(const PHLWINDOW& PWINDOW) {
-  auto square = current;
-
-  if (current && current->getOwner() == PWINDOW) {
-    HyprlandAPI::removeWindowDecoration(PHANDLE, square);
-    current = nullptr;
-  }
+  if (current && current->getOwner() == PWINDOW)
+    HyprlandAPI::removeWindowDecoration(PHANDLE, current.get());
 }
 
 void onActiveWindow(const PHLWINDOW& PWINDOW) {
@@ -128,9 +124,8 @@ void onActiveWindow(const PHLWINDOW& PWINDOW) {
   if (!isTextureLoaded)
     initialLoad();
 
-  if (current) {
-    HyprlandAPI::removeWindowDecoration(PHANDLE, current);
-  }
+  if (current)
+    HyprlandAPI::removeWindowDecoration(PHANDLE, current.get());
 
   if (PWINDOW) {
     std::string excluded = vars.exclude->value();
@@ -149,7 +144,7 @@ void onActiveWindow(const PHLWINDOW& PWINDOW) {
     }
 
     auto square = makeUnique<CDotDecoration>(PWINDOW);
-    current = square.get();
+    current = square;
     HyprlandAPI::addWindowDecoration(PHANDLE, PWINDOW, std::move(square));
   }
 }
@@ -157,14 +152,13 @@ void onActiveWindow(const PHLWINDOW& PWINDOW) {
 void onConfigReload() {
   const auto PWINDOW = Desktop::focusState()->window();
 
-  if (current) {
-    HyprlandAPI::removeWindowDecoration(PHANDLE, current);
-  }
+  if (current)
+    HyprlandAPI::removeWindowDecoration(PHANDLE, current.get());
 
   if (PWINDOW) {
     initialLoad();
     auto square = makeUnique<CDotDecoration>(PWINDOW);
-    current = square.get();
+    current = square;
     HyprlandAPI::addWindowDecoration(PHANDLE, PWINDOW, std::move(square));
   }
 }
@@ -223,7 +217,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
   for (auto &w : g_pCompositor->m_windows) {
     if (g_pCompositor->isWindowActive(w)) {
       auto deco = makeUnique<CDotDecoration>(w);
-      current = deco.get();
+      current = deco;
       HyprlandAPI::addWindowDecoration(PHANDLE, w, std::move(deco));
     }
   }
