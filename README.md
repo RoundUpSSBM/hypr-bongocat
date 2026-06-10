@@ -20,11 +20,12 @@ hyprpm enable hypr-bongocat
 ```bash
 git clone https://github.com/roundupssbm/hypr-bongocat
 cd hypr-bongocat
-make all
+make load
 ```
-then add it to hyprland:
+To manually load/unload:
 ```bash
 hyprctl plugin load /dir/to/hypr-bongocat.so
+hyprctl plugin unload /dir/to/hypr-bongocat.so
 ```
 change load to unload to remove the plugin
 
@@ -49,8 +50,8 @@ hl.config({
 
             -- path to a directory with both.png, left.png, right.png
             -- Absolute path is needed (~ for home directory is fine)
-            imgs = "/path/to/your/imgs",
-            -- TODO: make default path support hyprpm out of the box
+            -- default directory when installing with Hyprpm:
+            imgs = "~/.config/hypr/hypr-bongocat/bongo",
 
             -- can also exclude specific windows!
             -- exclude = "kitty, firefox",
@@ -58,48 +59,6 @@ hl.config({
     }
 })
 ```
-
-### DEPRECATED - Simple dot or png
-
-This functionality is deprecated and will be removed in a future version
-Add the following to your Hyprland.lua for normal configuration with dot or png
-
-```hyprland.lua
-hl.plugin({
-    plugin = {
-        hypr-bongocat {
-            -- can be from -1 to 1, will be
-                -- dynamic ratio with the window instead.
-                -- recommend fixed size for image as dynamic can look weird
-                -- in some cases.
-                -- leave one as 0 to keep original image ratio (image only)
-            -- width, height
-            size = { 100, 0 },			
-
-            -- shift down right (can be from -1 to 1 similarly)
-            pos = { 0, 0 },
-
-            -- rounding of 3~4 usually results in circle
-                -- depends on monitor type
-                -- higher and lower will make it look square-ly
-                -- doesn't affect image
-            rounding = 4.0
-
-            -- color = rgba(FFDD33FF)
-
-            --0: left/top, 1: middle, 2: down/right
-            origin = { 1, 0 }, 
-
-            -- Absolute path is needed (~ for home directory is fine)
-            img = "/path/to/your/image.png", 
-            
-            -- can also exclude specific windows!
-            exclude = "kitty, firefox",        
-        }
-	}
-})
-```
-
 
 ## Contribute
 PRs are welcome!
