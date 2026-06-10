@@ -8,4 +8,4 @@ commit_pins = [
 [hypr-bongocat]
 description = "Bongo cats on your windows!"
 output = "hypr-bongocat.so"
-build = ["make all"]
+build = ["make hyprpm"]

@@ -10,7 +10,7 @@ $(OUTPUT): main.o CDotDecoration.o
 	${CXX} -shared ${CXXFLAGS} -o $@ $^
 
 hyprpm: all
-	install -Dm644 bongo/*.png -t /var/cache/$(USER)/hyprpm/hypr-bongocat/bongo/
+	install -Dm644 bongo/*.png -t ${USER}/.config/hypr/hypr-bongocat/bongo/
 
 clean:
 	rm main.o CDotDecoration.o hypr-bongocat.so
