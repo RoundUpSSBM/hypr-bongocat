@@ -51,6 +51,7 @@ inline std::unordered_map<std::string, SP<Render::ITexture>> g_pTextures = {
     {"both.png", nullptr},
     {"left.png", nullptr},
     {"right.png", nullptr},
+    {"none.png", nullptr},
 };
 
 inline SP<Render::ITexture> g_pTexture = nullptr;

@@ -60,6 +60,18 @@ hl.config({
 })
 ```
 
+config options:
+| Config value | Format | Default value | Notes |
+| :--- | :--- | :--- | :--- |
+| size | {x, y} | {125, 0} | between -1 and 1: dynamic ratio of window, otherwise absolute|
+| pos | {x, y} | {0, -39} | between -1 and 1: relative to window, otherwise absolute|
+| origin | {x, y} | {1, 0} | 0: left/top, 1: middle, 2: down/right|
+| exclude | "firefox, kitty" | "" | comma and/or space separated |
+| imgs | "/path/to/dir" | "~/.config/hypr/hypr-bongocat/bongo" | for bongocats. must be a directory with "left.png", "right.png", "none.png", "both.png" |
+| img | "/path/to/img" | "" | for single image. |
+| color | "rgba(RRGGBBAA)" | "rgba(FFDD33FF)" |  
+| rounding | "x" | 4.0 | rounding of dot if no image is selected |
+
 ## Contribute
 PRs are welcome!
 
