@@ -214,8 +214,8 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
       });
 
   // generate a deco for current window if exists
-  for (auto &w : g_pCompositor->m_windows) {
-    if (g_pCompositor->isWindowActive(w)) {
+  for (auto &w : Desktop::CWindowState().windows()) {
+    if (Desktop::CFocusState().isWindowActive(w)) {
       auto deco = makeUnique<CDotDecoration>(w);
       current = deco;
       HyprlandAPI::addWindowDecoration(PHANDLE, w, std::move(deco));

@@ -123,11 +123,11 @@ void CDotDecoration::draw(PHLMONITOR pMonitor, float const &a) {
   // handle float size case
   float size_x = (size).x;
   if (size_x < 1) {
-    size_x = PWINDOW->m_size.x * size_x;
+    size_x = PWINDOW->getWindowMainSurfaceBox().w * size_x;
   }
   float size_y = (size).y;
   if (size_y < 1) {
-    size_y = PWINDOW->m_size.y * size_y;
+    size_y = PWINDOW->getWindowMainSurfaceBox().h * size_y;
   }
 
   // render data
@@ -158,19 +158,19 @@ CBox CDotDecoration::getSquareBox() {
   // handle float size case
   float size_x = (size).x;
   if ((size).x < 1) {
-    size_x = PWINDOW->m_realSize->value().x * (size).x;
+    size_x = PWINDOW->getWindowMainSurfaceBox().w * (size).x;
   }
   float size_y = (size).y;
   if ((size).y < 1) {
-    size_y = PWINDOW->m_realSize->value().y * (size).y;
+    size_y = PWINDOW->getWindowMainSurfaceBox().h * (size).y;
   }
   float pos_x = (position).x;
   if (pos_x < 1 && pos_x > -1) {
-    pos_x = PWINDOW->m_realSize->value().x * pos_x;
+    pos_x = PWINDOW->getWindowMainSurfaceBox().w * pos_x;
   }
   float pos_y = (position).y;
   if (pos_y < 1 && pos_y > -1) {
-    pos_y = PWINDOW->m_realSize->value().y * pos_y;
+    pos_y = PWINDOW->getWindowMainSurfaceBox().h * pos_y;
   }
 
   if (m_pTexture && size_x == 0)
@@ -181,11 +181,11 @@ CBox CDotDecoration::getSquareBox() {
   auto origin = vars.origin->value();
 
   double originX =
-      PWINDOW->m_realPosition->value().x +
-      (origin).x * (PWINDOW->m_realSize->value().x - size_x) / 2;
+      PWINDOW->getWindowMainSurfaceBox().x +
+      (origin).x * (PWINDOW->getWindowMainSurfaceBox().w - size_x) / 2;
   double originY =
-      PWINDOW->m_realPosition->value().y +
-      ((origin).y * (PWINDOW->m_realSize->value().y - size_y) / 2);
+      PWINDOW->getWindowMainSurfaceBox().y +
+      ((origin).y * (PWINDOW->getWindowMainSurfaceBox().h - size_y) / 2);
 
   // position at top
   double squareX = originX + pos_x;
