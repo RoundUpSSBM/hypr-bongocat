@@ -8,17 +8,18 @@
 class CDotDecoration : public IHyprWindowDecoration {
 public:
   CDotDecoration(PHLWINDOW);
-  virtual ~CDotDecoration();
-  virtual SDecorationPositioningInfo getPositioningInfo();
-  virtual void draw(PHLMONITOR pMonitor, float const &a);
-  virtual eDecorationType getDecorationType();
-  virtual eDecorationLayer getDecorationLayer();
-  virtual void updateWindow(PHLWINDOW pWindow);
-  virtual void damageEntire();
-  virtual uint64_t getDecorationFlags();
-  virtual std::string getDisplayName();
+  ~CDotDecoration() override;
+  SDecorationPositioningInfo getPositioningInfo() override;
+  void draw(Render::CRenderContext& ctx, PHLMONITOR pMonitor, float const& a,
+          const Render::SWindowRenderPresentation& presentation) override;
+  eDecorationType getDecorationType() override;
+  eDecorationLayer getDecorationLayer() override;
+  void updateWindow(PHLWINDOW pWindow) override;
+  void damageEntire() override;
+  uint64_t getDecorationFlags() override;
+  std::string getDisplayName() override;
   virtual CBox getSquareBox();
-  virtual void onPositioningReply(const SDecorationPositioningReply &reply);
+  void onPositioningReply(const SDecorationPositioningReply &reply) override;
   PHLWINDOW getOwner();
   virtual void onKeypress(const IKeyboard::SKeyEvent& event);
   virtual std::string getHandForKeyEvent(IKeyboard::SKeyEvent event);

@@ -9,7 +9,7 @@
 #include <hyprland/src/plugins/PluginAPI.hpp>
 #include <hyprland/src/event/EventBus.hpp>
 #include <hyprland/src/desktop/state/FocusState.hpp>
-#include <hyprland/src/desktop/view/Window.hpp>
+#include <hyprland/src/desktop/view/window/Window.hpp>
 #include <hyprlang.hpp>
 #include <hyprutils/math/Vector2D.hpp>
 #include <hyprutils/memory/SharedPtr.hpp>
@@ -130,7 +130,7 @@ void onActiveWindow(const PHLWINDOW& PWINDOW) {
   if (PWINDOW) {
     std::string excluded = vars.exclude->value();
 
-    std::string WindowTitle = PWINDOW->m_class;
+    std::string WindowTitle = PWINDOW->metadata().appID();
     std::string className;
     for(char c : excluded + ',') {
       if (c == ' ' || c == ',') {
@@ -143,7 +143,7 @@ void onActiveWindow(const PHLWINDOW& PWINDOW) {
       else className += c;
     }
 
-    auto square = makeUnique<CDotDecoration>(PWINDOW);
+    auto square = makeShared<CDotDecoration>(PWINDOW);
     current = square;
     HyprlandAPI::addWindowDecoration(PHANDLE, PWINDOW, std::move(square));
   }
@@ -157,7 +157,7 @@ void onConfigReload() {
 
   if (PWINDOW) {
     initialLoad();
-    auto square = makeUnique<CDotDecoration>(PWINDOW);
+    auto square = makeShared<CDotDecoration>(PWINDOW);
     current = square;
     HyprlandAPI::addWindowDecoration(PHANDLE, PWINDOW, std::move(square));
   }
@@ -216,7 +216,7 @@ APICALL EXPORT PLUGIN_DESCRIPTION_INFO PLUGIN_INIT(HANDLE handle) {
   // generate a deco for current window if exists
   for (auto &w : Desktop::CWindowState().windows()) {
     if (Desktop::CFocusState().isWindowActive(w)) {
-      auto deco = makeUnique<CDotDecoration>(w);
+      auto deco = makeShared<CDotDecoration>(w);
       current = deco;
       HyprlandAPI::addWindowDecoration(PHANDLE, w, std::move(deco));
     }

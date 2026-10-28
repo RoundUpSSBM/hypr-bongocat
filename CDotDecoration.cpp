@@ -2,7 +2,7 @@
 #include "globals.hpp"
 
 #include <hyprland/src/Compositor.hpp>
-#include <hyprland/src/desktop/view/Window.hpp>
+#include <hyprland/src/desktop/view/window/Window.hpp>
 #include <hyprland/src/desktop/rule/windowRule/WindowRule.hpp>
 #include <hyprland/src/plugins/PluginAPI.hpp>
 #include <hyprland/src/render/Renderer.hpp>
@@ -100,7 +100,9 @@ SDecorationPositioningInfo CDotDecoration::getPositioningInfo() {
   return info;
 }
 
-void CDotDecoration::draw(PHLMONITOR pMonitor, float const &a) {
+void CDotDecoration::draw(Render::CRenderContext& ctx, PHLMONITOR pMonitor,
+                          float const& a,
+                          const Render::SWindowRenderPresentation& presentation) {
   if (!validMapped(m_pWindow))
     return;
 
@@ -137,7 +139,7 @@ void CDotDecoration::draw(PHLMONITOR pMonitor, float const &a) {
     renderData.clipBox = squareBox;
     renderData.a = 1.F;
     renderData.tex = m_pTexture;
-    g_pHyprRenderer->m_renderPass.add(makeUnique<CTexPassElement>(renderData));
+    ctx.m_pass.add(makeUnique<CTexPassElement>(renderData));
   } else {
     CRectPassElement::SRectData rectData;
     rectData.color = CHyprColor(color);
@@ -145,7 +147,7 @@ void CDotDecoration::draw(PHLMONITOR pMonitor, float const &a) {
     rectData.clipBox = squareBox;
     rectData.round = std::min(size_x, size_y);
     rectData.roundingPower = rounding;
-    g_pHyprRenderer->m_renderPass.add(makeUnique<CRectPassElement>(rectData));
+    ctx.m_pass.add(makeUnique<CRectPassElement>(rectData));
   }
 }
 
@@ -195,7 +197,7 @@ CBox CDotDecoration::getSquareBox() {
 
   // handle workspace offset
   const auto PWORKSPACE = PWINDOW->m_workspace;
-  const auto WORKSPACEOFFSET = PWORKSPACE && !PWINDOW->m_pinned
+  const auto WORKSPACEOFFSET = PWORKSPACE && !(PWINDOW->m_state & Desktop::View::WINDOW_STATE_PINNED)
                                    ? PWORKSPACE->m_renderOffset->value()
                                    : Vector2D();
   return box.translate(WORKSPACEOFFSET);
